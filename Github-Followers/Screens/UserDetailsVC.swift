@@ -8,10 +8,12 @@
 import UIKit
 import SafariServices
 
+import Kingfisher
+
 class UserDetailsVC: UIViewController {
     
     
-    @IBOutlet private var userImage: CachedImageView!
+    @IBOutlet private var userImage: GFImageView!
     
     @IBOutlet private var usernameLbl: UILabel!
     @IBOutlet private var nameLbl: UILabel!
@@ -54,7 +56,7 @@ class UserDetailsVC: UIViewController {
     }
     
     func configureLabels() {
-        userImage.loadImageFrom(imageUrl)
+        userImage.kf.setImage(with: imageUrl)
         usernameLbl.text = username
         
         nameLbl.text = name

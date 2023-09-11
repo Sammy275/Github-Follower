@@ -8,6 +8,6 @@
 import UIKit
 
 class FollowerCollectionCell: UICollectionViewCell {
-    @IBOutlet var imageView: CachedImageView!
+    @IBOutlet var imageView: GFImageView!
     @IBOutlet var textLbl: UILabel!
 }

@@ -26,7 +26,7 @@ class FollowerSearchVC: BaseViewController {
     
     @IBAction func followersButtonTapped(_ sender: Any) {
         guard let username = usernameTextField.text, username.isEmpty == false else {
-            GFCustomAlertVC.showAlert(on: self, title: "Empty Username!", content: "Please make sure to add a username in the box.", buttonText: "Ok")
+            GFAlertVC.showAlert(on: self, title: "Empty Username!", content: "Please make sure to add a username in the box.", buttonText: "Ok")
             return
         }
         openFollowerColletionVCFor(username: username.lowercased())

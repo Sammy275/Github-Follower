@@ -8,7 +8,7 @@
 import UIKit
 
 class FavouriteUserTableViewCell: UITableViewCell {
-    @IBOutlet var userImage: CachedImageView!
+    @IBOutlet var userImage: GFImageView!
     @IBOutlet var usernameLbl: UILabel!
     
     override func awakeFromNib() {

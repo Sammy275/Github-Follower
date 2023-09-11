@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GFCustomAlertVC: UIViewController {
+class GFAlertVC: UIViewController {
     
     var titleText: String!
     var contentText: String!
@@ -94,7 +94,7 @@ class GFCustomAlertVC: UIViewController {
     }
     
     static func showAlert(on view: UIViewController, title: String, content: String, buttonText: String) {
-        let alert = GFCustomAlertVC()
+        let alert = GFAlertVC()
         
         alert.titleText = title
         alert.contentText = content

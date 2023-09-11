@@ -71,7 +71,7 @@ class FollowerListVC: BaseViewController {
         datasource = DataSource(collectionView: followersCollectionView, cellProvider: { (collectionView, indexPath, follower) -> FollowerCollectionCell in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "followersCollectionCell", for: indexPath) as! FollowerCollectionCell
             
-            cell.imageView.loadImageFrom(URL(string: follower.imageURL)!)
+            cell.imageView.kf.setImage(with: URL(string: follower.imageURL)!)
             cell.textLbl.text = follower.username
             
             return cell
@@ -116,7 +116,7 @@ class FollowerListVC: BaseViewController {
         NetworkManager.getDataFromAPI(url: userDetailURL) { (userDetail: User?) in
             guard let user = userDetail else {
                 DispatchQueue.main.async {
-                    GFCustomAlertVC.showAlert(on: self, title: "Something is wrong", content: "Please try again!", buttonText: "Ok")
+                    GFAlertVC.showAlert(on: self, title: "Something is wrong", content: "Please try again!", buttonText: "Ok")
                 }
                 
                 return
@@ -150,7 +150,7 @@ class FollowerListVC: BaseViewController {
         let favouriteUserManager = FavouriteUserManager()
         
         if getFavouriteStatus() {
-            GFCustomAlertVC.showAlert(on: self, title: "Hold up!", content: "You have already favourited this user 😌", buttonText: "Alright")
+            GFAlertVC.showAlert(on: self, title: "Hold up!", content: "You have already favourited this user 😌", buttonText: "Alright")
             return
         }
         
@@ -160,7 +160,7 @@ class FollowerListVC: BaseViewController {
         NetworkManager.getDataFromAPI(url: userDetailURL) { (favouritedUser: FavouriteUser?) in
             guard let favouritedUser = favouritedUser else {
                 DispatchQueue.main.async {
-                    GFCustomAlertVC.showAlert(on: self, title: "Oh no", content: "Problem during favouriting the user", buttonText: "Ok 😞")
+                    GFAlertVC.showAlert(on: self, title: "Oh no", content: "Problem during favouriting the user", buttonText: "Ok 😞")
                 }
                 return
             }
@@ -168,7 +168,7 @@ class FollowerListVC: BaseViewController {
             favouriteUserManager.create(favouritedUser)
             
             DispatchQueue.main.async {
-                GFCustomAlertVC.showAlert(on: self, title: "Success!", content: "You have favourited this user 🎊", buttonText: "Hooray!")
+                GFAlertVC.showAlert(on: self, title: "Success!", content: "You have favourited this user 🎊", buttonText: "Hooray!")
             }
         }
         

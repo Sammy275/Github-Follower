@@ -30,7 +30,7 @@ class BaseViewController: UIViewController {
                 }
             } else {
                 DispatchQueue.main.async {
-                    GFCustomAlertVC.showAlert(on: self, title: "Problem With Username", content: "The username may not be valid", buttonText: "Ok")
+                    GFAlertVC.showAlert(on: self, title: "Problem With Username", content: "The username may not be valid", buttonText: "Ok")
                 }
                 
             }

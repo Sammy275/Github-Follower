@@ -1,0 +1,6 @@
+framework module Pods_Github_Followers {
+  umbrella header "Pods-Github-Followers-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -54,7 +54,7 @@ extension FavouriteUsersVC: UITableViewDelegate, UITableViewDataSource {
         
         
         let userImageURL = URL(string: favouriteUserList[indexPath.row].imageURL)!
-        cell.userImage.loadImageFrom(userImageURL)
+        cell.userImage.kf.setImage(with: userImageURL)
         cell.usernameLbl.text = favouriteUserList[indexPath.row].username
         
         
@@ -66,7 +66,7 @@ extension FavouriteUsersVC: UITableViewDelegate, UITableViewDataSource {
         NetworkManager.getDataFromAPI(url: userDetailURL) { (userDetail: User?) in
             guard let user = userDetail else {
                 DispatchQueue.main.async {
-                    GFCustomAlertVC.showAlert(on: self, title: "Something is wrong", content: "Please try again!", buttonText: "Ok")
+                    GFAlertVC.showAlert(on: self, title: "Something is wrong", content: "Please try again!", buttonText: "Ok")
                 }
                 
                 return
