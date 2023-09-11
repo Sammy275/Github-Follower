@@ -12,15 +12,17 @@ class FollowerListVC: BaseViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Follower>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Follower>
     
+    var datasource: DataSource!
+    
     @IBOutlet var followersCollectionView: UICollectionView!
+    @IBOutlet var noUserLbl: UILabel!
     
     let searchController = UISearchController()
     let favouriteUserManager = FavouriteUserManager()
     
     var username: String!
     var followerList: [Follower]!
-    
-    var datasource: DataSource!
+
     
     var isLoadable = true
     private var currentPage = 1
@@ -31,27 +33,33 @@ class FollowerListVC: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigationBar()
-        configureSearchController()
-        configureDataSource()
-        applySnapshot(followerList)
         
-        followersCollectionView.delegate = self
+        if followerList.isEmpty {
+            followersCollectionView.removeFromSuperview()
+        }
+        else {
+            noUserLbl.removeFromSuperview()
+            configureSearchController()
+            configureDataSource()
+            applySnapshot(followerList)
+            
+            followersCollectionView.delegate = self
+        }
     }
     
-    func getFavouriteStatus() -> Bool {
+    private func getFavouriteStatus() -> Bool {
         if favouriteUserManager.get(byUsername: username) != nil {
             return true
         }
         return false
     }
     
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = username
         
         var heartIcon = UIImage(systemName: "heart")
-            
+        
         if getFavouriteStatus() {
             heartIcon = UIImage(systemName: "heart.fill")
         }
@@ -59,11 +67,11 @@ class FollowerListVC: BaseViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: heartIcon, style: .plain, target: self, action: #selector(favouriteBtnTapped))
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         datasource = DataSource(collectionView: followersCollectionView, cellProvider: { (collectionView, indexPath, follower) -> FollowerCollectionCell in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "followersCollectionCell", for: indexPath) as! FollowerCollectionCell
             
-            cell.imageView.loadImageFrom(url: URL(string: follower.imageURL)!)
+            cell.imageView.loadImageFrom(URL(string: follower.imageURL)!)
             cell.textLbl.text = follower.username
             
             return cell
@@ -152,7 +160,7 @@ class FollowerListVC: BaseViewController {
         NetworkManager.getDataFromAPI(url: userDetailURL) { (favouritedUser: FavouriteUser?) in
             guard let favouritedUser = favouritedUser else {
                 DispatchQueue.main.async {
-                    GFCustomAlertVC.showAlert(on: self, title: "Problem", content: "Problem during favouriting the user", buttonText: "Ok 😞")
+                    GFCustomAlertVC.showAlert(on: self, title: "Oh no", content: "Problem during favouriting the user", buttonText: "Ok 😞")
                 }
                 return
             }

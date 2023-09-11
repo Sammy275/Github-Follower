@@ -9,6 +9,7 @@ import UIKit
 
 class CachedImageView: UIImageView {
     static let defaultImage = UIImage(named: "gh-logo")
+//    let imageCache = NSCache<AnyObject, AnyObject>()
     var task: URLSessionDataTask!
     
     override func awakeFromNib() {
@@ -20,20 +21,21 @@ class CachedImageView: UIImageView {
         self.layer.masksToBounds = true;
         self.layer.cornerRadius = 25.0
         
-        self.contentMode = .scaleToFill
+//        self.contentMode = .scaleToFill
     }
     
-    func loadImageFrom(url: URL) {
-        image = CachedImageView.defaultImage
-        
+    func loadImageFrom(_ url: URL) {
         if let task = task {
             task.cancel()
         }
         
-        //        if let imageFromCache = imageCache.object(forKey: url.absoluteString as AnyObject) as? UIImage {
-        //            self.image = imageFromCache
-        //            return
-        //        }
+        image = CachedImageView.defaultImage
+        
+//        if let imageFromCache = imageCache.object(forKey: url.absoluteString as AnyObject) as? UIImage {
+//            self.image = imageFromCache
+//            print("Using Cache")
+//            return
+//        }
         
         task = URLSession.shared.dataTask(with: url) { data, response, error in
             

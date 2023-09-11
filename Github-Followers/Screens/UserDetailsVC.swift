@@ -41,13 +41,20 @@ class UserDetailsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureLabels()
         configureNavigationBar()
+        configureLabels()
+    }
+    
+    func configureNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissController))
+    }
+    
+    @objc func dismissController() {
+        dismiss(animated: true)
     }
     
     func configureLabels() {
-        userImage.loadImageFrom(url: imageUrl)
+        userImage.loadImageFrom(imageUrl)
         usernameLbl.text = username
         
         nameLbl.text = name
@@ -65,14 +72,6 @@ class UserDetailsVC: UIViewController {
         followersLbl.text = followers
         followingLbl.text = followings
         createDateLbl.text = "Github since \(createDate!)"
-    }
-    
-    func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissController))
-    }
-    
-    @objc func dismissController() {
-        dismiss(animated: true)
     }
     
     

@@ -26,7 +26,8 @@ class GFCustomAlertVC: UIViewController {
     func configureContent() {
         let titleLbl = UILabel()
         let contentLbl = UILabel()
-        let dismissButton = UIButton(configuration: .filled())
+        let dismissButton = UIButton(type: .system) // Use .system type for standard UIButton appearance
+
         
         titleLbl.text = titleText
         titleLbl.numberOfLines = 0
@@ -38,15 +39,20 @@ class GFCustomAlertVC: UIViewController {
         contentLbl.textColor = .systemGray
         contentLbl.textAlignment = .center
         
-        dismissButton.setTitle(dissmissBtnText, for: .normal)
-        dismissButton.tintColor = .red
         
+        dismissButton.setTitle(dissmissBtnText, for: .normal)
+        dismissButton.backgroundColor = .red // Set the background color to red
+        dismissButton.setTitleColor(.white, for: .normal) // Set the title color to white
+        dismissButton.layer.cornerRadius = 10.0
+
+        let boldFont = UIFont.boldSystemFont(ofSize: 18) // Adjust the font size as needed
+        dismissButton.titleLabel?.font = boldFont
+
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         dismissButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
-        
+
         dismissButton.addTarget(self, action: #selector(dismissBtnTapped), for: .touchUpInside)
-        
-        
+
         
         containerStackView.addArrangedSubview(titleLbl)
         containerStackView.addArrangedSubview(contentLbl)

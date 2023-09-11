@@ -9,7 +9,6 @@ import UIKit
 
 class FollowerSearchVC: BaseViewController {
     
-    
     @IBOutlet var usernameTextField: UITextField!
     
     override func viewDidLoad() {

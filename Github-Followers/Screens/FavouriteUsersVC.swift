@@ -14,13 +14,13 @@ class FavouriteUsersVC: BaseViewController {
     
     var favouriteUserList: [FavouriteUser] = [] {
         didSet {
+            canHideTableView()
             favouriteUserTView.reloadData()
         }
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewWillAppear(true)
         let favouritedUsers = favouriteUserManager.getAll()
         favouriteUserList = favouritedUsers
     }
@@ -29,6 +29,15 @@ class FavouriteUsersVC: BaseViewController {
         super.viewDidLoad()
         favouriteUserTView.delegate = self
         favouriteUserTView.dataSource = self
+    }
+    
+    func canHideTableView() {
+        if favouriteUserList.isEmpty {
+            favouriteUserTView.isHidden = true
+        }
+        else {
+            favouriteUserTView.isHidden = false
+        }
     }
 }
 
@@ -42,8 +51,10 @@ extension FavouriteUsersVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "favouriteUserTableCell") as! FavouriteUserTableViewCell
         
+        
+        
         let userImageURL = URL(string: favouriteUserList[indexPath.row].imageURL)!
-        cell.userImage.loadImageFrom(url: userImageURL)
+        cell.userImage.loadImageFrom(userImageURL)
         cell.usernameLbl.text = favouriteUserList[indexPath.row].username
         
         
