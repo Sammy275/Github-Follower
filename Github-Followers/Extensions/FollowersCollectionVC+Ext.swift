@@ -61,3 +61,19 @@ extension FollowerListVC: UserDetailsDelegate {
         openFollowerColletionVCFor(username: followerName)
     }
 }
+
+extension FollowerListVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let collectionViewWidth = followersCollectionView.bounds.width
+        
+        return CGSize(width: collectionViewWidth/3 - 20, height: collectionViewWidth/3)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+}
