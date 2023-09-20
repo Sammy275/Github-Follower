@@ -11,18 +11,20 @@ class FavouriteUsersVC: BaseViewController {
     @IBOutlet var favouriteUserTView: UITableView!
     
     let favouriteUserManager = FavouriteUserManager()
-    
-    var favouriteUserList: [FavouriteUser] = [] {
-        didSet {
-            canHideTableView()
-            favouriteUserTView.reloadData()
-        }
-    }
+    var favouriteUserList: [FavouriteUser] = []
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
         let favouritedUsers = favouriteUserManager.getAll()
-        favouriteUserList = favouritedUsers
+        if favouriteUserList.count != favouritedUsers.count {
+            for newUser in favouritedUsers[favouriteUserList.count..<favouritedUsers.count] {
+                favouriteUserList.append(newUser)
+                insertNewRow(itemNumber: favouriteUserList.count - 1)
+            }
+        }
+    
+        setTableVisibility()
     }
     
     override func viewDidLoad() {
@@ -31,13 +33,27 @@ class FavouriteUsersVC: BaseViewController {
         favouriteUserTView.dataSource = self
     }
     
-    func canHideTableView() {
+    func canHideTableView() -> Bool {
         if favouriteUserList.isEmpty {
+            return true
+        }
+        return false
+    }
+    
+    func insertNewRow(itemNumber: Int) {
+        let newIndexPath = IndexPath(item: itemNumber, section: 0)
+        
+        favouriteUserTView.beginUpdates()
+        favouriteUserTView.insertRows(at: [newIndexPath], with: .automatic)
+        favouriteUserTView.endUpdates()
+    }
+    
+    func setTableVisibility() {
+        if canHideTableView() {
             favouriteUserTView.isHidden = true
+            return
         }
-        else {
-            favouriteUserTView.isHidden = false
-        }
+        favouriteUserTView.isHidden = false
     }
 }
 
@@ -101,11 +117,15 @@ extension FavouriteUsersVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        tableView.beginUpdates()
         favouriteUserManager.delete(byUsername: favouriteUserList[indexPath.row].username)
         favouriteUserList.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        tableView.endUpdates()
+        
+        tableView.performBatchUpdates {
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        } completion: { didUpdateComplete in
+            print("A new crispy table")
+            self.setTableVisibility()
+        }
     }
 }
 
